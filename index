@@ -1,0 +1,74 @@
+function List() {}
+ 
+List.prototype
+
+function Cons(head, tail) {
+    this.head = head;
+    this.tail = tail;
+}
+
+
+Cons.prototype = new List();
+//two lines of code with recrussion or ten lines with loops
+
+Cons.prototype.isEmpty = function() {
+    return false;
+}
+
+Cons.prototype.append = function(other){
+let List = this.tail.append(other);
+return new Cons(this.head,List);
+}
+
+Cons.prototype.contains = function(value){
+  return (this.head == value) || this.tail.contains(value);
+}
+
+Cons.prototype.length = function(){
+  return 1 + this.tail.length();
+}
+
+Cons.prototype.filter = function(filler){    //Parameters is a high order function
+
+if(filler(this.head))
+  {
+    return new Cons(this.head,this.tail.filter(filler));
+  }
+else
+  {
+    return this.tail.filter(filler);
+  }
+
+}
+
+Cons.prototype.map = function(input){ //Parameters is a high order function
+let list = this.tail.map(input);  //what ever it called that what list has to contian new list
+return new Cons(input(this.head), list);  //returns the new list 
+}
+
+function Nil() {}
+
+Nil.prototype = new List();
+Nil.prototype.isEmpty = function() {
+    return true;
+};
+
+Nil.prototype.length = function(m){
+  return 0;
+}
+
+Nil.prototype.contains = function(m){
+  return false;
+}
+
+Nil.prototype.append = function(input){
+  return input;
+}
+
+Nil.prototype.map = function(input){
+  return this;
+}
+
+Nil.prototype.filter = function(input){
+  return this;
+}
